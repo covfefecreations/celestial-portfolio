@@ -1,25 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "next.config.js", "use": "@vercel/next" }
+    { "src": "package.json", "use": "@vercel/static-build" }
   ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    }
-  ],
-  "env": {
-    "NEXT_PUBLIC_APP_NAME": "Celestial Portfolio"
+  "scripts": {
+    "build": "npm run build"
   },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-      ]
-    }
-  ]
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
+  "outputDirectory": "build"
 }
