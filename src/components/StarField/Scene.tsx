@@ -4,11 +4,14 @@ import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Project } from '@/data/types';
-import { projectsData } from '@/data/projects';
 
-// Dynamically import components with named exports and disable SSR
-const Star = dynamic(() => import('./Star').then((mod) => mod.Star), { ssr: false });
-const CameraController = dynamic(
+// Explicitly type these as React components
+const Star = dynamic<React.ComponentType<{ project: Project }>>(
+  () => import('./Star').then((mod) => mod.Star),
+  { ssr: false }
+);
+
+const CameraController = dynamic<React.ComponentType>(
   () => import('./CameraController').then((mod) => mod.CameraController),
   { ssr: false }
 );
@@ -20,7 +23,7 @@ interface SceneProps {
 export const Scene: React.FC<SceneProps> = ({ projects }) => {
   return (
     <Canvas
-      dpr={[1, 2]} // Support retina displays
+      dpr={[1, 2]}
       shadows
       camera={{ position: [0, 0, 50], fov: 75 }}
     >
