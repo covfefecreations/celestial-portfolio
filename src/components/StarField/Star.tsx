@@ -1,0 +1,1 @@
+export const Star=()=>{return null;}

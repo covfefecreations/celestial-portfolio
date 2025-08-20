@@ -1,0 +1,1 @@
+export const Tooltip=({content,children}:{content:string;children:React.ReactNode;})=>(<div>{children}<span>{content}</span></div>);

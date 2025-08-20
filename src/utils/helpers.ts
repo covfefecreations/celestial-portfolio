@@ -1,0 +1,1 @@
+export function hexToRgb(hex:string){return [1,1,1];}

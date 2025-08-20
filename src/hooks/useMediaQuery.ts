@@ -1,0 +1,1 @@
+export function useMediaQuery(q:string){return false;}
