@@ -5,9 +5,12 @@ import { Canvas } from '@react-three/fiber';
 import { Stars } from '@react-three/drei';
 import { useStarfieldStore } from '@/stores/useStarfieldStore';
 import { projectsData } from '@/data/projects';
-import { Star } from './Star';
-import { CameraController } from './CameraController';
+import dynamic from 'next/dynamic';
 import { LoadingSpinner } from '../UI/LoadingSpinner';
+
+// Dynamically import components that use Three.js
+const Star = dynamic(() => import('./Star'), { ssr: false });
+const CameraController = dynamic(() => import('./CameraController'), { ssr: false });
 
 export const Scene: React.FC = () => {
   const setProjects = useStarfieldStore((state) => state.setProjects);
@@ -23,6 +26,7 @@ export const Scene: React.FC = () => {
           frameloop="demand"
           dpr={[1, 2]}
           camera={{ position: [0, 0, 50], fov: 75 }}
+          gl={{ antialias: true }}
         >
           <ambientLight intensity={0.1} />
           <pointLight position={[10, 10, 10]} intensity={0.5} />

@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Sphere, Html } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { motion } from 'framer-motion';
 import { Project } from '@/data/types';
 import { useStarfieldStore } from '@/stores/useStarfieldStore';
 import { hexToRgb } from '@/utils/helpers';
@@ -36,13 +35,17 @@ export const Star: React.FC<StarProps> = ({ project }) => {
   const handlePointerOver = () => {
     setHovered(true);
     setIsHovering(true);
-    document.body.style.cursor = 'pointer';
+    if (typeof document !== 'undefined') {
+      document.body.style.cursor = 'pointer';
+    }
   };
 
   const handlePointerOut = () => {
     setHovered(false);
     setIsHovering(false);
-    document.body.style.cursor = 'auto';
+    if (typeof document !== 'undefined') {
+      document.body.style.cursor = 'auto';
+    }
   };
 
   return (

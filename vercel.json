@@ -2,17 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "next.config.js",
+      "src": "package.json",
       "use": "@vercel/next"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "headers": {
-        "Cache-Control": "s-maxage=1, stale-while-revalidate"
-      },
-      "dest": "/$1"
+      "dest": "/"
     }
   ]
 }

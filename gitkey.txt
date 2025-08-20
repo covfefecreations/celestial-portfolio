@@ -1,0 +1,3 @@
+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
+
+git remote set-url origin https://<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>@github.com/covfefecreations/celestial-portfolio.git
