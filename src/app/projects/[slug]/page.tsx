@@ -9,9 +9,12 @@ interface ProjectPageProps {
 }
 
 export function generateStaticParams() {
-  return projectsData.map((project) => ({
-    slug: project.slug,
-  }));
+  // Filter out projects that don't have a slug to prevent the error
+  return projectsData
+    .filter(project => project.slug) // Ensure project has slug
+    .map((project) => ({
+      slug: project.slug,
+    }));
 }
 
 export function generateMetadata({ params }: ProjectPageProps) {
