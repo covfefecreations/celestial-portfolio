@@ -1,50 +1,38 @@
 'use client';
 
-import React, { Suspense, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Stars } from '@react-three/drei';
-import { useStarfieldStore } from '@/stores/useStarfieldStore';
-import { projectsData } from '@/data/projects';
 import dynamic from 'next/dynamic';
-import { LoadingSpinner } from '../UI/LoadingSpinner';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Project } from '@/data/types';
+import { projectsData } from '@/data/projects';
 
-// Dynamically import components that use Three.js
-const Star = dynamic(() => import('./Star'), { ssr: false });
-const CameraController = dynamic(() => import('./CameraController'), { ssr: false });
+// Dynamically import components with named exports and disable SSR
+const Star = dynamic(() => import('./Star').then((mod) => mod.Star), { ssr: false });
+const CameraController = dynamic(
+  () => import('./CameraController').then((mod) => mod.CameraController),
+  { ssr: false }
+);
 
-export const Scene: React.FC = () => {
-  const setProjects = useStarfieldStore((state) => state.setProjects);
+interface SceneProps {
+  projects: Project[];
+}
 
-  useEffect(() => {
-    setProjects(projectsData);
-  }, [setProjects]);
-
+export const Scene: React.FC<SceneProps> = ({ projects }) => {
   return (
-    <div className="canvas-container">
-      <Suspense fallback={<LoadingSpinner />}>
-        <Canvas
-          frameloop="demand"
-          dpr={[1, 2]}
-          camera={{ position: [0, 0, 50], fov: 75 }}
-          gl={{ antialias: true }}
-        >
-          <ambientLight intensity={0.1} />
-          <pointLight position={[10, 10, 10]} intensity={0.5} />
-          <Stars
-            radius={100}
-            depth={50}
-            count={5000}
-            factor={4}
-            saturation={0}
-            fade
-            speed={1}
-          />
-          {projectsData.map((project) => (
-            <Star key={project.id} project={project} />
-          ))}
-          <CameraController />
-        </Canvas>
+    <Canvas
+      dpr={[1, 2]} // Support retina displays
+      shadows
+      camera={{ position: [0, 0, 50], fov: 75 }}
+    >
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} intensity={1} />
+
+      <Suspense fallback={null}>
+        {projects.map((project) => (
+          <Star key={project.id} project={project} />
+        ))}
+        <CameraController />
       </Suspense>
-    </div>
+    </Canvas>
   );
 };
