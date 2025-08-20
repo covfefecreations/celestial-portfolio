@@ -1,1 +1,24 @@
-export default function RootLayout({children}:{children:React.ReactNode;}){return(<html lang='en'><body>{children}</body></html>);}
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'Celestial Portfolio',
+  description: 'An interactive 3D portfolio experience among the stars',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} bg-background text-foreground`}>
+        {children}
+      </body>
+    </html>
+  );
+}

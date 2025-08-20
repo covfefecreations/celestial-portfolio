@@ -1,1 +1,6 @@
-export default function Loading(){return(<div>Loading...</div>);}
+import React from 'react';
+import { LoadingSpinner } from '@/components/UI/LoadingSpinner';
+
+export default function Loading() {
+  return <LoadingSpinner />;
+}
