@@ -1,16 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "next.config.js", "use": "@vercel/next" }
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
+    }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "headers": [
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-      ],
+      "headers": {
+        "Cache-Control": "s-maxage=1, stale-while-revalidate"
+      },
       "dest": "/$1"
     }
   ]
