@@ -1,14 +1,16 @@
 # Dependencies
 /node_modules
 
-# Production
+# Production builds
 /.next
 /out
+/dist
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # Environment variables
 .env
@@ -22,6 +24,7 @@ yarn-error.log*
 .idea/
 .DS_Store
 *.swp
+*.swo
 
-# Build
-/dist
+# Vercel
+.vercel
