@@ -1,22 +1,21 @@
+/// <reference types="@react-three/fiber/dist/declarations/src/three-types" />
+
 'use client';
 
 import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import type { Project } from '@/data/types';
-import type { StarProps } from './Star'; // Import the props type for type safety
+import type { StarProps } from './Star';
 
-// Use the imported StarProps type to ensure the contract between components is explicit.
-// This resolves the original TypeScript build error.
 const Star = dynamic<StarProps>(
   () => import('./Star').then((mod) => mod.Star),
   {
     ssr: false,
-    loading: () => null, // Provide a fallback during async load
+    loading: () => null,
   }
 );
 
-// Dynamically import the CameraController as well
 const CameraController = dynamic(
   () => import('./CameraController').then((mod) => mod.CameraController),
   {
@@ -32,7 +31,7 @@ interface SceneProps {
 export const Scene: React.FC<SceneProps> = ({ projects }) => {
   return (
     <Canvas
-      dpr={[1, 2]} // Adjust pixel ratio for performance on high-density screens
+      dpr={[1, 2]}
       shadows
       camera={{ position: [0, 0, 50], fov: 75 }}
     >
