@@ -8,10 +8,9 @@ const LoadingSpinner = () => (
   <div style={{ color: 'white' }}>Loading Celestial Objects...</div>
 );
 
-// Dynamically import 3D and UI components to ensure they only render on the client.
-// This prevents SSR errors since Three.js needs browser APIs like 'window'.
+// This dynamic import is likely correct if Scene.tsx has a named 'Scene' export
 const Scene = dynamic(
-  () => import('../components/Scene'), // Assuming Scene.tsx is in src/components/
+  () => import('../components/Scene').then((mod) => mod.Scene), 
   {
     ssr: false,
     loading: () => (
@@ -29,8 +28,9 @@ const Scene = dynamic(
   }
 );
 
+// FIX: Corrected the import to handle a named export for ProjectPanel
 const ProjectPanel = dynamic(
-  () => import('../components/UI/ProjectPanel'), // Assuming ProjectPanel is in src/components/UI/
+  () => import('../components/UI/ProjectPanel').then((mod) => mod.ProjectPanel),
   {
     ssr: false,
   }
@@ -39,12 +39,7 @@ const ProjectPanel = dynamic(
 export default function Home() {
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black">
-      {/* The Scene component will be rendered on the client side. 
-        The loading component defined above will be shown as a fallback.
-      */}
       <Scene />
-
-      {/* The ProjectPanel is also loaded dynamically. */}
       <ProjectPanel />
     </main>
   );
