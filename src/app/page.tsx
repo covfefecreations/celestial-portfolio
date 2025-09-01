@@ -3,14 +3,13 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-// Assuming you have a loading spinner component
 const LoadingSpinner = () => (
   <div style={{ color: 'white' }}>Loading Celestial Objects...</div>
 );
 
-// This dynamic import is likely correct if Scene.tsx has a named 'Scene' export
+// FIX: Corrected the import to handle a default export for Scene
 const Scene = dynamic(
-  () => import('../components/Scene').then((mod) => mod.Scene), 
+  () => import('../components/Scene'),
   {
     ssr: false,
     loading: () => (
@@ -28,7 +27,7 @@ const Scene = dynamic(
   }
 );
 
-// FIX: Corrected the import to handle a named export for ProjectPanel
+// This import remains correct for a named export
 const ProjectPanel = dynamic(
   () => import('../components/UI/ProjectPanel').then((mod) => mod.ProjectPanel),
   {
