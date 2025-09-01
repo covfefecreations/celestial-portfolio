@@ -7,27 +7,20 @@ const LoadingSpinner = () => (
   <div style={{ color: 'white' }}>Loading Celestial Objects...</div>
 );
 
-// FIX: Corrected the import to handle a default export for Scene
+// Default import for the Scene
 const Scene = dynamic(
   () => import('../components/Scene'),
   {
     ssr: false,
     loading: () => (
-      <div style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#000010'
-      }}>
+      <div className="w-screen h-screen flex items-center justify-center bg-black">
         <LoadingSpinner />
       </div>
     )
   }
 );
 
-// This import remains correct for a named export
+// Named import for the ProjectPanel
 const ProjectPanel = dynamic(
   () => import('../components/UI/ProjectPanel').then((mod) => mod.ProjectPanel),
   {
@@ -37,9 +30,22 @@ const ProjectPanel = dynamic(
 
 export default function Home() {
   return (
-    <main className="relative w-full h-screen overflow-hidden bg-black">
-      <Scene />
-      <ProjectPanel />
+    // Set the parent to relative to create a stacking context
+    <main className="relative w-full h-screen">
+      {/* UI Layer: Positioned on top with a higher z-index */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="p-8 text-white">
+          <h1 className="text-3xl font-bold">Celestial Portfolio</h1>
+          <p>The UI layer is now visible.</p>
+        </div>
+        {/* The ProjectPanel will also live on this layer */}
+        <ProjectPanel />
+      </div>
+
+      {/* 3D Scene Layer: Positioned on the bottom with a lower z-index */}
+      <div className="absolute inset-0 z-0">
+        <Scene />
+      </div>
     </main>
   );
 }
