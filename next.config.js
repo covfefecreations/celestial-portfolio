@@ -1,12 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
-  output: 'standalone',
-  images: {
-    unoptimized: true,
-  },
-}
+  // This is important for Three.js to work correctly with Next.js App Router
+  transpilePackages: ['three'],
+};
 
-module.exports = nextConfig
+export default nextConfig;
