@@ -1,27 +1,25 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import { LoadingSpinner } from '@/components/UI/LoadingSpinner';
+import { projectsData } from '@/data/projects'; // Ensure this path is correct
 
-// Type definition for dynamic component
-interface SceneComponentProps {}
-interface ProjectPanelComponentProps {}
-
-// Dynamically import 3D components with proper loading
-const Scene = dynamic<SceneComponentProps>(
+// Dynamically import 3D and UI components to ensure they only render on the client
+const Scene = dynamic(
   () => import('@/components/StarField/Scene').then(mod => mod.Scene),
   {
     ssr: false,
+    // This loading component will be shown while the main Scene is being loaded
     loading: () => (
-      <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-full h-screen flex items-center justify-center bg-background">
         <LoadingSpinner />
       </div>
     )
   }
 );
 
-const ProjectPanel = dynamic<ProjectPanelComponentProps>(
+const ProjectPanel = dynamic(
   () => import('@/components/UI/ProjectPanel').then(mod => mod.ProjectPanel),
   {
     ssr: false
@@ -30,17 +28,14 @@ const ProjectPanel = dynamic<ProjectPanelComponentProps>(
 
 export default function Home() {
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <Suspense
-        fallback={
-          <div className="w-full h-screen flex items-center justify-center">
-            <LoadingSpinner />
-          </div>
-        }
-      >
-        <Scene />
-        <ProjectPanel />
-      </Suspense>
+    <div className="relative w-full h-screen overflow-hidden bg-background">
+      {/* The Scene component handles its own loading state via the dynamic import.
+        We pass the projectsData to it here so it can render the celestial bodies.
+      */}
+      <Scene projects={projectsData} />
+
+      {/* The ProjectPanel is also loaded dynamically and will appear when interacted with */}
+      <ProjectPanel />
     </div>
   );
 }
