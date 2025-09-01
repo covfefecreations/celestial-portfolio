@@ -1,35 +1,21 @@
-'use client';
+// No 'use client' needed here, as it's imported by a client component.
+import { useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import * as THREE from 'three';
 
-import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
-import { projects } from '@/data/projects'; // Import your project data
+export default function Scene() {
+  const meshRef = useRef<THREE.Mesh>(null!);
 
-// Dynamically import the Scene to ensure it's client-side only
-const Scene = dynamic(
-  () => import('@/components/Scene').then((mod) => mod.Scene), // Assuming Scene is at src/components/Scene.tsx
-  {
-    ssr: false,
-    loading: () => (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        color: 'white',
-        backgroundColor: 'black'
-      }}>
-        Loading Celestial Portfolio...
-      </div>
-    ),
-  }
-);
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += delta * 0.2;
+    }
+  });
 
-export default function Home() {
   return (
-    <main style={{ width: '100vw', height: '100vh', background: '#000010' }}>
-      <Suspense fallback={null}>
-        <Scene projects={projects} />
-      </Suspense>
-    </main>
+    <mesh ref={meshRef}>
+      <boxGeometry args={[1, 1, 1]} />
+      <meshStandardMaterial color="orange" />
+    </mesh>
   );
 }
