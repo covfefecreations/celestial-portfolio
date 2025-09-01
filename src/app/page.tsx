@@ -2,17 +2,27 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { LoadingSpinner } from '@/components/UI/LoadingSpinner';
-import { projectsData } from '@/data/projects'; // Ensure this path is correct
 
-// Dynamically import 3D and UI components to ensure they only render on the client
+// Assuming you have a loading spinner component
+const LoadingSpinner = () => (
+  <div style={{ color: 'white' }}>Loading Celestial Objects...</div>
+);
+
+// Dynamically import 3D and UI components to ensure they only render on the client.
+// This prevents SSR errors since Three.js needs browser APIs like 'window'.
 const Scene = dynamic(
-  () => import('@/components/StarField/Scene').then(mod => mod.Scene),
+  () => import('../components/Scene'), // Assuming Scene.tsx is in src/components/
   {
     ssr: false,
-    // This loading component will be shown while the main Scene is being loaded
     loading: () => (
-      <div className="w-full h-screen flex items-center justify-center bg-background">
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000010'
+      }}>
         <LoadingSpinner />
       </div>
     )
@@ -20,22 +30,22 @@ const Scene = dynamic(
 );
 
 const ProjectPanel = dynamic(
-  () => import('@/components/UI/ProjectPanel').then(mod => mod.ProjectPanel),
+  () => import('../components/UI/ProjectPanel'), // Assuming ProjectPanel is in src/components/UI/
   {
-    ssr: false
+    ssr: false,
   }
 );
 
 export default function Home() {
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-background">
-      {/* The Scene component handles its own loading state via the dynamic import.
-        We pass the projectsData to it here so it can render the celestial bodies.
+    <main className="relative w-full h-screen overflow-hidden bg-black">
+      {/* The Scene component will be rendered on the client side. 
+        The loading component defined above will be shown as a fallback.
       */}
-      <Scene projects={projectsData} />
+      <Scene />
 
-      {/* The ProjectPanel is also loaded dynamically and will appear when interacted with */}
+      {/* The ProjectPanel is also loaded dynamically. */}
       <ProjectPanel />
-    </div>
+    </main>
   );
 }
