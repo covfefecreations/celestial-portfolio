@@ -1,20 +1,27 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { OrbitControls, Box } from '@react-three/drei';
 
+/**
+ * This is the main 3D scene component.
+ * It's marked as a client component because it uses hooks and browser-specific APIs.
+ */
 export default function Scene() {
   return (
-    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100vh' }}>
-      <Canvas>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <mesh>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color="orange" />
-        </mesh>
-        <OrbitControls />
-      </Canvas>
-    </div>
+    <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+      {/* Lighting */}
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+
+      {/* Controls */}
+      <OrbitControls />
+
+      {/* Your 3D Objects (e.g., Starfield, CelestialNode) will go here */}
+      {/* For now, a simple box to test the setup */}
+      <Box args={[1, 1, 1]}>
+        <meshStandardMaterial color="orange" />
+      </Box>
+    </Canvas>
   );
 }
