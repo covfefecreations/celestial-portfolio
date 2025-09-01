@@ -9,26 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.2.32",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "@react-three/fiber": "^8.17.10",
-    "@react-three/drei": "^9.122.0",
-    "three": "^0.179.0",
-    "framer-motion": "^10.16.0",
-    "zustand": "^4.4.0",
-    "lucide-react": "^0.292.0"
+    "@react-three/drei": "^9.105.6",
+    "@react-three/fiber": "^8.16.6",
+    "framer-motion": "^11.2.6",
+    "lucide-react": "^0.383.0",
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "three": "^0.164.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "typescript": "^5.2.0",
-    "tailwindcss": "^3.3.0",
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "@types/three": "^0.179.0",
-    "autoprefixer": "latest",
-    "postcss": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest"
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/three": "^0.164.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
